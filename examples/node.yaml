@@ -74,4 +74,9 @@ spec:
         runAsUser: 0
       containers:
         - name: kube-stresscheck
-          image: quay.io/giantswarm/kube-stresscheck:latest
+          image: fangruo/kube-stresscheck:1.0
+          env:
+          - name: NUMCPU
+            value: "7"
+          - name: MEMORY_MB
+            value: "26672"          

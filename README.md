@@ -7,6 +7,11 @@ It will run 5 iterations of `stress` command with following parameters:
 - Memory forks will be computed to allocate whole memory.
 
 For details what `stress` does under the hood see [manual](https://linux.die.net/man/1/stress).
+## Build docker image
+
+```
+ docker  build --target runner -t fangruo/kube-stresscheck:1.0 .
+```
 
 ## Quick start
 

@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"strconv"
 	"os/exec"
 	"runtime"
 )
@@ -49,11 +50,22 @@ func main() {
 	// CPU forks to start. By default allocate 2 times cores.
 	var stressCPUForks = 2 * runtime.NumCPU()
 
+	ncpu := os.Getenv("NUMCPU")
+	if ncpu != "" {
+		stressCPUForks, _ = strconv.Atoi(ncpu)
+	}
+
 	// The easiest way w/o tons of code and external modules to get system memory.
 	var totalSystemMemoryMB = C.sysconf(C._SC_PHYS_PAGES) * C.sysconf(C._SC_PAGE_SIZE) / 1024 / 1024
 
 	// Memory forks to start. By default aim to allocate total memory size.
 	var stressMemoryForks = totalSystemMemoryMB / stressDefaultMemoryMB
+
+	memoryMB := os.Getenv("MEMORY_MB")
+	if memoryMB != "" {
+		memmb, _ := strconv.Atoi(memoryMB)
+		stressMemoryForks = C.long(memmb)
+	}
 
 	args := []string{
 		"--cpu", fmt.Sprintf("%v", stressCPUForks),
